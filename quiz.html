@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz - Color Quiz</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="quiz-card">
+
+        <!-- Header -->
+        <div class="quiz-header">
+
+            <h2>🧠 Color Quiz</h2>
+
+            <span class="question-number">
+                Question {{ number }} of {{ total }}
+            </span>
+
+        </div>
+
+
+        <!-- Student -->
+        <div class="student-info">
+            👤 {{ student_name }}
+        </div>
+
+
+        <!-- Timer -->
+        <div class="timer-box">
+
+            ⏱️ Time Left:
+
+            <span id="timer">30</span>
+
+            seconds
+
+        </div>
+
+
+        <!-- Progress -->
+        <div class="progress-container">
+
+            <div class="progress-bar"
+                 style="width: {{ (number / total) * 100 }}%;">
+            </div>
+
+        </div>
+
+
+        <!-- Question -->
+        <div class="question-box">
+
+            <h3 class="question">
+                {{ question['question'] }}
+            </h3>
+
+        </div>
+
+
+        <!-- Answer Form -->
+        <form method="POST"
+              id="quizForm">
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="{{ question['option1'] }}"
+                       required>
+
+                <span>{{ question['option1'] }}</span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="{{ question['option2'] }}">
+
+                <span>{{ question['option2'] }}</span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="{{ question['option3'] }}">
+
+                <span>{{ question['option3'] }}</span>
+
+            </label>
+
+
+            <label class="option">
+
+                <input type="radio"
+                       name="answer"
+                       value="{{ question['option4'] }}">
+
+                <span>{{ question['option4'] }}</span>
+
+            </label>
+
+
+            <!-- Hidden field -->
+            <input type="hidden"
+                   name="time_expired"
+                   id="timeExpired"
+                   value="0">
+
+
+            <button type="submit"
+                    class="next-btn"
+                    id="nextButton">
+
+                Next Question ➜
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let timeLeft = 30;
+
+const timer = document.getElementById("timer");
+
+const form = document.getElementById("quizForm");
+
+const nextButton = document.getElementById("nextButton");
+
+const timeExpired = document.getElementById("timeExpired");
+
+let submitted = false;
+
+
+/*
+=========================================================
+TIMER
+=========================================================
+*/
+
+const countdown = setInterval(function () {
+
+    timeLeft--;
+
+    timer.textContent = timeLeft;
+
+
+    // Warning at 10 seconds
+    if (timeLeft <= 10) {
+
+        timer.classList.add("timer-warning");
+
+    }
+
+
+    // Time finished
+    if (timeLeft <= 0) {
+
+        clearInterval(countdown);
+
+        if (!submitted) {
+
+            submitted = true;
+
+            timeExpired.value = "1";
+
+            nextButton.disabled = true;
+
+            nextButton.textContent = "Time Up...";
+
+            form.submit();
+
+        }
+
+    }
+
+}, 1000);
+
+
+/*
+=========================================================
+FORM SUBMISSION
+=========================================================
+*/
+
+form.addEventListener("submit", function (event) {
+
+    if (submitted) {
+
+        event.preventDefault();
+
+        return;
+
+    }
+
+
+    submitted = true;
+
+    clearInterval(countdown);
+
+    nextButton.disabled = true;
+
+    nextButton.textContent = "Loading...";
+
+});
+
+
+/*
+=========================================================
+PREVENT BACK BUTTON RESUBMISSION
+=========================================================
+*/
+
+window.addEventListener("pageshow", function (event) {
+
+    if (event.persisted) {
+
+        window.location.reload();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

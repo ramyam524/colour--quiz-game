@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="home-card">
+        <div class="logo">🧠</div>
+        <h1>Color Quiz</h1>
+        <p>Test your knowledge with fun questions!</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        {% if logged_in %}
+            <div class="student-info">👋 Welcome, <strong>{{ user_name }}</strong></div>
+            <form method="POST" action="{{ url_for('start') }}">
+                <button type="submit" class="start-btn">Start Quiz 🚀</button>
+            </form>
+            <div class="result-buttons">
+                <a href="{{ url_for('history') }}" class="home-btn">📊 View History</a>
+                <a href="{{ url_for('logout') }}" class="home-btn">🚪 Logout</a>
+            </div>
+        {% else %}
+            <a href="{{ url_for('login') }}" class="start-btn auth-link">🔐 Login to Start</a>
+            <a href="{{ url_for('register') }}" class="home-btn auth-link">🎓 Create Account</a>
+        {% endif %}
+
+        <p class="info">📝 {{ question_count }} Questions &nbsp; | &nbsp; ⏱️ 30 Seconds Each &nbsp; | &nbsp; 🏆 Get Your Score</p>
+    </div>
+</div>
+</body>
+</html>

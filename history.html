@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz History - Color Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="result-card">
+        <div class="trophy">📊</div>
+        <h1>Quiz History</h1>
+        <p class="student-name">{{ session.get('user_name', 'Student') }}</p>
+
+        {% if results %}
+            <div class="history-list">
+                {% for item in results %}
+                    <div class="history-item">
+                        <div>
+                            <strong>{{ item['student_name'] }}</strong>
+                            <small>{{ item['quiz_date'] }}</small>
+                        </div>
+                        <div>
+                            <span class="history-score">{{ item['score'] }}/{{ item['total'] }}</span>
+                            <a href="{{ url_for('result_details', result_id=item['id']) }}" class="home-btn">View Details</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="result-text">No quiz attempts found.</p>
+        {% endif %}
+
+        <div class="result-buttons">
+            <a href="{{ url_for('index') }}" class="home-btn">← Home</a>
+            <form method="POST" action="{{ url_for('start') }}" style="display:inline;"><button type="submit" class="restart-btn auth-btn">Start Quiz 🚀</button></form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

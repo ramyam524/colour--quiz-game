@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Details - Color Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <div class="result-card">
+        <div class="trophy">🏆</div>
+        <h1>Result Details</h1>
+        <p class="student-result">👤 {{ result['student_name'] }}</p>
+        <p class="result-text">📅 {{ result['quiz_date'] }}</p>
+        <div class="score">{{ result['score'] }}/{{ result['total'] }}</div>
+        <p class="percentage">{{ ((result['score'] / result['total']) * 100)|round(2) if result['total'] else 0 }}%</p>
+        <p class="result-text">Correct Answers: <strong>{{ result['score'] }}</strong></p>
+        <p class="result-text">Total Questions: <strong>{{ result['total'] }}</strong></p>
+        <div class="result-buttons">
+            <a href="{{ url_for('history') }}" class="home-btn">← Back to History</a>
+            <a href="{{ url_for('index') }}" class="home-btn">🏠 Home</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

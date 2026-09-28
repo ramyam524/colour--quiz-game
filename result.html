@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz Result - Color Quiz</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="result-card">
+
+        <!-- Trophy -->
+        <div class="trophy">
+            🏆
+        </div>
+
+
+        <!-- Heading -->
+        <h1>
+            Quiz Completed!
+        </h1>
+
+
+        <!-- Student -->
+        <p class="student-result">
+
+            👤
+            {{ session.get('student_name', 'Student') }}
+
+        </p>
+
+
+        <!-- Result Text -->
+        <p class="result-text">
+
+            Your Score
+
+        </p>
+
+
+        <!-- Score -->
+        <div class="score">
+
+            {{ score }} / {{ total }}
+
+        </div>
+
+
+        <!-- Percentage -->
+        <div class="percentage">
+
+            {{ percentage }}%
+
+        </div>
+
+
+        <!-- Result Message -->
+
+        {% if score == total %}
+
+            <h2>
+                🎉 Excellent!
+            </h2>
+
+            <p>
+                Perfect score! You got all answers correct.
+            </p>
+
+
+        {% elif score >= total / 2 %}
+
+            <h2>
+                👏 Good Job!
+            </h2>
+
+            <p>
+                You did well. Keep learning and improving!
+            </p>
+
+
+        {% else %}
+
+            <h2>
+                💪 Keep Practicing!
+            </h2>
+
+            <p>
+                Don't give up. Try again and improve your score.
+            </p>
+
+        {% endif %}
+
+
+        <!-- Buttons -->
+
+        <div class="result-buttons">
+
+            <a href="{{ url_for('restart') }}"
+               class="restart-btn">
+
+                🔄 Play Again
+
+            </a>
+
+
+            <a href="{{ url_for('index') }}"
+               class="home-btn">
+
+                🏠 Home
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
