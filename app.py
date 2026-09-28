@@ -3,7 +3,7 @@ from database import create_database, save_result, register_user, login_user, ge
 import sqlite3
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 app.secret_key = "quiz_secret_key_change_this"
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
